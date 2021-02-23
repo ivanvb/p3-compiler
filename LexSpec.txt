@@ -5,6 +5,7 @@ W [a-zA-Z]
 
 Alphanum ({D}|{W})
 
+
 %{
 #include "Tokens.h"
 int yyerror(char *);
@@ -12,7 +13,6 @@ int tokenCount;
 %}
 
 %%
-
 
 "["     {tokenCount++; return _LBRACK; }
 "]"     {tokenCount++; return _RBRACK; }	
@@ -32,27 +32,30 @@ int tokenCount;
 "<="				{tokenCount++; return _LEQ; }
 ">="				{tokenCount++; return _GEQ; }
 "<>"				{tokenCount++; return _NEQ; }
-program				{tokenCount++; return _PROGRAM; }
-endvars				{tokenCount++; return _ENDVARS; }
-endprocs			{tokenCount++; return _ENDPROCS; }
-variables			{tokenCount++; return _VARS; }
-novariables			{tokenCount++; return _NOVARS; }
-integer				{tokenCount++; return _INTEGER; }
-real				{tokenCount++; return _REAL; }
-string				{tokenCount++; return _STRING; }
-procedures			{tokenCount++; return _PROCS; }
-noprocedures		{tokenCount++; return _NOPROCS; }
-procedure			{tokenCount++; return _PROC; }
-begin				{tokenCount++; return _BEGIN; }
-end					{tokenCount++; return _END; }
-for					{tokenCount++; return _FOR; }
-to					{tokenCount++; return _TO; }
-do					{tokenCount++; return _DO; }
-if					{tokenCount++; return _IF; }
-then				{tokenCount++; return _THEN; }
-else				{tokenCount++; return _ELSE; }
-read				{tokenCount++; return _READ; }
-write       		{tokenCount++; return _WRITE; }
+(?i:program)				{tokenCount++; return _PROGRAM; }
+(?i:endvars)				{tokenCount++; return _ENDVARS; }
+(?i:endprocs)			{tokenCount++; return _ENDPROCS; }
+(?i:variables)			{tokenCount++; return _VARS; }
+(?i:novariables)			{tokenCount++; return _NOVARS; }
+(?i:integer)				{tokenCount++; return _INTEGER; }
+(?i:real)				{tokenCount++; return _REAL; }
+(?i:string)				{tokenCount++; return _STRING; }
+(?i:procedures)			{tokenCount++; return _PROCS; }
+(?i:noprocedures)		{tokenCount++; return _NOPROCS; }
+(?i:procedure)			{tokenCount++; return _PROC; }
+(?i:begin)				{tokenCount++; return _BEGIN; }
+(?i:end)					{tokenCount++; return _END; }
+(?i:for)					{tokenCount++; return _FOR; }
+(?i:to)					{tokenCount++; return _TO; }
+(?i:do)					{tokenCount++; return _DO; }
+(?i:if)					{tokenCount++; return _IF; }
+(?i:then)				{tokenCount++; return _THEN; }
+(?i:else)				{tokenCount++; return _ELSE; }
+(?i:read)				{tokenCount++; return _READ; }
+(?i:write)       		{tokenCount++; return _WRITE; }
+"-"?{D}+   					{tokenCount++; return _ICONST;}
+"-"?{D}+("."{D}+)?			{tokenCount++; return _RCONST; }
+("_"|{W})("_"|{Alphanum})*     {tokenCount++; return _ID;}
 .       {yyerror("Error");}
 %%
 
