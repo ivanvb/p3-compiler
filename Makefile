@@ -2,6 +2,14 @@
 test: a.out
 	./a.out < ./tests/TestCases.txt
 
+testPrograma: a.out
+	./a.out < ./tests/Caso_de_Prueba_programa_Mini_P.TXT
+
+testBadLiteral: a.out
+	./a.out < ./tests/Caso_de_Prueba_Constante_De_Cadena_Ilimitada.txt
+
+testBadComment: a.out
+	./a.out < ./tests/Caso_de_Prueba_Comentario_Ilimitado.txt
 
 # Corre el programa en modo interactivo
 run: a.out

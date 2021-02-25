@@ -53,9 +53,15 @@ int tokenCount;
 (?i:else)				{tokenCount++; return _ELSE; }
 (?i:read)				{tokenCount++; return _READ; }
 (?i:write)       		{tokenCount++; return _WRITE; }
+"{"[^}]*"}"             {tokenCount++; return _COMMENT;}
+"{"[^}]*				{yyerror("Comentario incompleto");}
+\".*\"                   {tokenCount++; return _LITERAL;}
+(\".*[^\"])				{yyerror("Literal incompleto");}
 "-"?{D}+   					{tokenCount++; return _ICONST;}
 "-"?{D}+("."{D}+)?			{tokenCount++; return _RCONST; }
 ("_"|{W})("_"|{Alphanum})*     {tokenCount++; return _ID;}
+[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?     {tokenCount++; return _ECONST;}
+" "|"\t"	                                                    {}
 .       {yyerror("Error");}
 %%
 
