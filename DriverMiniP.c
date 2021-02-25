@@ -16,7 +16,7 @@
 * Prototipos de funcion
 **/
 int yylex(void);
-extern char *yytext;
+extern char *yytext; // The actual representation of the token.
 extern tokenCount;
 
 char *getTokenLabel(int tokenCode);
@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
 
     while (tokenCode != EOF)
     {
-
         printf("El lexema detectado '%s' pertence al token %s\n", yytext, tokenName);
         tokenCode = yylex();
         tokenName = getTokenLabel(tokenCode);
@@ -44,7 +43,7 @@ char *getTokenLabel(int tokenCode)
     switch (tokenCode)
     {
     case _ID:
-        return "ID";
+        return "_ID";
         break;
 
     case _ICONST:

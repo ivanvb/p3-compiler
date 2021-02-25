@@ -14,60 +14,61 @@ int tokenCount;
 
 %%
 
-"["     {tokenCount++; return _LBRACK; }
-"]"     {tokenCount++; return _RBRACK; }	
-"("					{tokenCount++; return _LPAREN; }
-")"					{tokenCount++; return _RPAREN; }
-";"					{tokenCount++; return _SEMI; }
-":"					{tokenCount++; return _COLON; }
-","					{tokenCount++; return _COMMA; }
-":="				{tokenCount++; return _ASSIGN; }
-"+"					{tokenCount++; return _PLUS; }
-"-"					{tokenCount++; return _MINUS; }
-"*"					{tokenCount++; return _MULT; }
-"/"					{tokenCount++; return _DIVIDE; }
-"="					{tokenCount++; return _EQL; }
-"<"					{tokenCount++; return _LESS; }
-">"					{tokenCount++; return _GTR; }
-"<="				{tokenCount++; return _LEQ; }
-">="				{tokenCount++; return _GEQ; }
-"<>"				{tokenCount++; return _NEQ; }
-(?i:program)				{tokenCount++; return _PROGRAM; }
-(?i:endvars)				{tokenCount++; return _ENDVARS; }
-(?i:endprocs)			{tokenCount++; return _ENDPROCS; }
-(?i:variables)			{tokenCount++; return _VARS; }
-(?i:novariables)			{tokenCount++; return _NOVARS; }
-(?i:integer)				{tokenCount++; return _INTEGER; }
-(?i:real)				{tokenCount++; return _REAL; }
-(?i:string)				{tokenCount++; return _STRING; }
-(?i:procedures)			{tokenCount++; return _PROCS; }
-(?i:noprocedures)		{tokenCount++; return _NOPROCS; }
-(?i:procedure)			{tokenCount++; return _PROC; }
-(?i:begin)				{tokenCount++; return _BEGIN; }
-(?i:end)					{tokenCount++; return _END; }
-(?i:for)					{tokenCount++; return _FOR; }
-(?i:to)					{tokenCount++; return _TO; }
-(?i:do)					{tokenCount++; return _DO; }
-(?i:if)					{tokenCount++; return _IF; }
-(?i:then)				{tokenCount++; return _THEN; }
-(?i:else)				{tokenCount++; return _ELSE; }
-(?i:read)				{tokenCount++; return _READ; }
-(?i:write)       		{tokenCount++; return _WRITE; }
-"{"[^}]*"}"             {tokenCount++; return _COMMENT;}
-"{"[^}]*				{yyerror("Comentario incompleto");}
-\".*\"                   {tokenCount++; return _LITERAL;}
-(\".*[^\"])				{yyerror("Literal incompleto");}
-"-"?{D}+   					{tokenCount++; return _ICONST;}
-"-"?{D}+("."{D}+)?			{tokenCount++; return _RCONST; }
-("_"|{W})("_"|{Alphanum})*     {tokenCount++; return _ID;}
-[-+]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?     {tokenCount++; return _ECONST;}
-" "|"\t"	                                                    {}
-.       {yyerror("Error");}
+"["    									 	{tokenCount++; return _LBRACK; }
+"]"    									 	{tokenCount++; return _RBRACK; }	
+"("											{tokenCount++; return _LPAREN; }
+")"											{tokenCount++; return _RPAREN; }
+";"											{tokenCount++; return _SEMI; }
+":"											{tokenCount++; return _COLON; }
+","											{tokenCount++; return _COMMA; }
+":="										{tokenCount++; return _ASSIGN; }
+"+"											{tokenCount++; return _PLUS; }
+"-"											{tokenCount++; return _MINUS; }
+"*"											{tokenCount++; return _MULT; }
+"/"											{tokenCount++; return _DIVIDE; }
+"="											{tokenCount++; return _EQL; }
+"<"											{tokenCount++; return _LESS; }
+">"											{tokenCount++; return _GTR; }
+"<="										{tokenCount++; return _LEQ; }
+">="										{tokenCount++; return _GEQ; }
+"<>"										{tokenCount++; return _NEQ; }
+(?i:program)								{tokenCount++; return _PROGRAM; }
+(?i:endvars)								{tokenCount++; return _ENDVARS; }
+(?i:endprocs)								{tokenCount++; return _ENDPROCS; }
+(?i:variables)								{tokenCount++; return _VARS; }
+(?i:novariables)							{tokenCount++; return _NOVARS; }
+(?i:integer)								{tokenCount++; return _INTEGER; }
+(?i:real)									{tokenCount++; return _REAL; }
+(?i:string)									{tokenCount++; return _STRING; }
+(?i:procedures)								{tokenCount++; return _PROCS; }
+(?i:noprocedures)							{tokenCount++; return _NOPROCS; }
+(?i:procedure)								{tokenCount++; return _PROC; }
+(?i:begin)									{tokenCount++; return _BEGIN; }
+(?i:end)									{tokenCount++; return _END; }
+(?i:for)									{tokenCount++; return _FOR; }
+(?i:to)										{tokenCount++; return _TO; }
+(?i:do)										{tokenCount++; return _DO; }
+(?i:if)										{tokenCount++; return _IF; }
+(?i:then)									{tokenCount++; return _THEN; }
+(?i:else)									{tokenCount++; return _ELSE; }
+(?i:read)									{tokenCount++; return _READ; }
+(?i:write)       							{tokenCount++; return _WRITE; }
+"{"[^}]*"}"             					{tokenCount++; return _COMMENT;}
+\"([^"])*\"           						{tokenCount++; return _LITERAL;}
+"{"[^}]*									{yyerror("Comentario incompleto");}
+"-"?{D}+   									{tokenCount++; return _ICONST;}
+"-"?{D}+("."{D}+)?\							{tokenCount++; return _RCONST; }
+("_"|{W})("_"|{Alphanum})*     				{tokenCount++; return _ID;}
+[-+]?{D}*[.]?{D}+([eE][-+]?{D}+)?     		{tokenCount++; return _ECONST;}
+" "|"\t"	                               	{}
+["][^"]*									{yyerror("Literal incompleto");}
+.       									{yyerror("Error");}
 %%
+
 
 
 int yyerror(char * errormsg)
 {
-	fprintf(stderr, "%s\n", errormsg);
+	fprintf(stderr, "%s en el numero del lexema %d, con el lexema %s\n", errormsg, tokenCount, yytext);
 	exit(1);
 }
